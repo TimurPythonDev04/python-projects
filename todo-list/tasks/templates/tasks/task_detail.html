@@ -1,0 +1,29 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div class="container task-container">
+    <h2>Task Details</h2>
+    <div class="mb-3">
+        <label class="form-label"><strong>Task Title:</strong></label>
+        <p>{{ tasks.title }}</p>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label"><strong>Description:</strong></label>
+        <p>{{ tasks.description }}</p>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label"><strong>Due Date:</strong></label>
+        <p>{{ tasks.due_date }}</p>
+    </div>
+
+    <div class="mb-3 form-check">
+        <label class="form-check-label"><strong>Completed:</strong></label>
+        <p>{% if tasks.completed %} ✅ Yes {% else %} ❌ No {% endif %}</p>
+    </div>
+
+    
+    <a href="{% url 'task-list' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}
