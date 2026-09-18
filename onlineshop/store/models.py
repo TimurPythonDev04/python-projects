@@ -23,6 +23,7 @@ class Product(models.Model) :
 
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     address = models.TextField()

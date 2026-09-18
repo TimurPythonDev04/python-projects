@@ -100,7 +100,10 @@ def checkout_view(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            if request.user.is_authenticated:
+                order.user = request.user
+            order.save()
             for product_id, item in cart.items():
                 product = Product.objects.get(id=product_id)
                 OrderItem.objects.create(
@@ -126,13 +129,13 @@ def order_success(request):
 
 @login_required
 def my_orders(request):
-    orders = Order.objects.all().order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'store/my_orders.html', {'orders': orders})
 
 
 @login_required
 def order_detail(request, pk):
-    order = Order.objects.get(pk=pk)
+    order = get_object_or_404(Order, pk=pk, user=request.user)
     order_items = OrderItem.objects.filter(order=order)
 
     return render(request, 'store/order_detail.html', {
