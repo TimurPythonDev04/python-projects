@@ -1,0 +1,29 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+<h2>My Orders</h2>
+
+{% if orders %}
+    <ul>
+    {% for order in orders %}
+        <li>
+            <strong>ID Order:</strong> {{ order.id }}<br>
+            <strong>Name:</strong> {{ order.name }}<br>
+            <strong>Email:</strong> {{ order.email }}<br>
+            <strong>Adress:</strong> {{ order.address }}<br>
+            <strong>Date:</strong> {{ order.created_at }}
+
+            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary mt-2">
+                View Details
+            </a>
+
+        </li>
+        <hr>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Вы ещё не оформляли заказы.</p>
+{% endif %}
+{% endblock %}

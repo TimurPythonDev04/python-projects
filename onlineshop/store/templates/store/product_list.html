@@ -1,0 +1,68 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h4>Categories:</h4>
+    <form method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ query }}">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link {% if not selected_category %}fw-bold{% endif %}" href="/">All</a>
+        </li>
+        {% for category in categories %}
+            <li class="nav-item">
+                <a class="nav-link {% if selected_category and selected_category.pk == category.pk %}fw-bold text-primary{% endif %}" href="{% url 'category_products' category.pk %}">
+                    {{ category.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<h1 class="mb-4">
+    {% if query %}
+        Results for "{{ query }}"
+    {% else %}
+        Product List
+    {% endif %}
+</h1>
+
+
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <a href="{% url 'product_detail' product.pk %}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'product_detail' product.pk %}" class="text-decoration-none">
+                            {{ product.title }}
+                        </a>
+                    </h5>
+                    <p class="card-text">{{ product.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <strong>Price:</strong> {{ product.price }}
+                    <a href="{% url 'add_to_cart' product.pk %}" class="btn btn-sm btn-success">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+
+
