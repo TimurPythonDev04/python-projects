@@ -8,19 +8,26 @@
 
     <form method="POST">
         {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+
         <div class="mb-3">
             <label for="id_title" class="form-label">Task Title:</label>
             {{ form.title }}
+            {% if form.title.errors %}<div class="text-danger">{{ form.title.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3">
             <label for="id_description" class="form-label">Description:</label>
             {{ form.description }}
+            {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3">
             <label for="id_due_date" class="form-label">Due Date:</label>
             {{ form.due_date }}
+            {% if form.due_date.errors %}<div class="text-danger">{{ form.due_date.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3 form-check">
